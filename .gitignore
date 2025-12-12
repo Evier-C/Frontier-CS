@@ -12,6 +12,10 @@ dist
 **/*.pyc
 gen.py
 tag.txt
+algorithmic/data
+algorithmic/submissions
+algorithmic/scripts/solutions
+uv.lock
 
 ################## Berkley Function Call Leaderboard ##########################
 
