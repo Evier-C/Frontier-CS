@@ -12,7 +12,7 @@ Whether you are benchmarking LLM agents, evaluating code generation models, or s
 
 Frontier-CS consists of two categories:
 
-- **Algorithmic Problems**: Competitive programming challenges, including optimization, construction, and interactive problems. For each algorithmic problem, we release the full problem statement, evaluator, and _one_ public test case. 
+- **Algorithmic Problems**: Competitive programming challenges, including optimization, construction, and interactive problems. For each algorithmic problem, we release the full problem statement, evaluator, and _one_ public test case.
 - **Research Problems**: Real-world systems challenges, including GPU kernels, distributed scheduling, ML pipelines, database optimization, and security exploits. For research problems, we release all data and scripts required to fully reproduce the results.
 
 Some of the problems are adapted from [ALE-bench](https://github.com/SakanaAI/ALE-Bench) and [AI-Driven Research for Systems (ADRS)](https://ucbskyadrs.github.io/).
@@ -32,16 +32,6 @@ uv sync
 
 # Or with pip:
 pip install -e .
-```
-
-### API Keys
-
-Set environment variables for the models you want to use:
-
-```bash
-export OPENAI_API_KEY="sk-..."        # For GPT models
-export ANTHROPIC_API_KEY="sk-ant-..." # For Claude models
-export GOOGLE_API_KEY="..."           # For Gemini models
 ```
 
 ### Research Problems
