@@ -28,12 +28,12 @@ Current benchmarks are becoming too easy. Models score 90%+ on many existing cod
 
 **Frontier-CS is different:**
 
-|            | Traditional Benchmarks          | Frontier-CS                                             |
-| ---------- | ------------------------------- | ------------------------------------------------------- |
-| Difficulty | Often saturated (90%+ scores)   | _Unsolved_: no model has achieved perfect scores        |
-| Problems   | Textbook-style, known solutions | _Open-ended_ research & optimization challenges         |
-| Evaluation | Binary pass/fail                | _Verifiable_ continuous scoring, always room to improve |
-| Scope      | Usually one domain              | _Diverse_: systems, ML, algorithms, security, and more  |
+|            | Traditional Benchmarks          | Frontier-CS                                               |
+| ---------- | ------------------------------- | -------------------------------------------------------   |
+| Difficulty | Often saturated with evolving intelligence   | _Unsolved_: no solution has achieved perfect scores |
+| Problems   | Textbook-style, known solutions | _Open-ended_ research & optimization challenges           |
+| Evaluation | Binary pass-or-fail                | _Verifiable_ continuous scoring, always room to improve   |
+| Scope      | Usually one domain              | _Diverse_: systems, ML, algorithms, security, and more    |
 
 **[Leaderboard →](https://frontier-cs.org/leaderboard)** | Browse example problems at [frontier-cs.org](https://frontier-cs.org)
 
