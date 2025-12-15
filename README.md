@@ -98,6 +98,7 @@ cd algorithmic && docker compose up -d
 # Evaluate a solution
 frontier-eval --algorithmic 1 <your_solution.cpp>
 ```
+#### Raw Score
 We also support unbounded scoring for algorithmic problems compatible with algorithm evolve framework like OpenEvolve.
 
 ```bash
@@ -105,10 +106,9 @@ We also support unbounded scoring for algorithmic problems compatible with algor
 frontier-eval --algorithmic --unbounded 1 <your_solution.cpp> 
 ```
 
-**NOTE**:
-
+#### Note 
 1. We currently support C++17 only for algorithmic problem solutions.
-2. Reference solutions and hidden tests are withheld; full evaluation and leaderboard inclusion require submission via *Submitting Results* section.
+2. Reference solutions and hidden tests are withheld; full evaluation and leaderboard inclusion require submission.
 
 See [algorithmic/README.md](algorithmic/README.md) for full documentation.
 
