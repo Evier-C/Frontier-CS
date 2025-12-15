@@ -60,7 +60,8 @@ void succe(){
     println(0,0);
     full_score = 1;
     double score=full_score*std::min(1.0,std::max(0.0,1.0*(T-cnt_query)/(T-best_score)));
-    quitp(score, "cnt_query=%d, Ratio: %.4f",  cnt_query,score);
+    double unbounded_score=full_score*std::max(0.0,1.0*(T-cnt_query)/(T-best_score));
+    quitp(score, "cnt_query=%d, Ratio: %.4f, RatioUnbounded: %.4f",  cnt_query,score, unbounded_score);
     exit(0);
 }
 int main(int argc, char* argv[]) {

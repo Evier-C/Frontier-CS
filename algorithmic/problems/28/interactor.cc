@@ -93,9 +93,10 @@ int main(int argc, char *argv[]) {
         vis[answers] = 1;
       }
       double score = (4000.0-1.0*sumk)/(4000.0-2400.0);
+      double unbounded_score = max(0.0, score);
       score = min(score, 1.0);
       score = max(score, 0.0);
-      quitp(score, "Ratio: %.3lf", score);
+      quitp(score, "Ratio: %.3lf, RatioUnbounded: %.3lf", score, unbounded_score);
     }
     else{
       quitf(_wa, "Invalid operation");

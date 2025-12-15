@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
     int baseline_operations = 4 * n;
     int best_operations = 2 * n + 1;
 
-    double ratio = 0;
+    double ratio = 0, unbounded_ratio = 0;
 
     if (your_operations >= baseline_operations) {
         // Score is 0 if not better than baseline
@@ -76,10 +76,10 @@ int main(int argc, char* argv[]) {
             ratio = 1.0;
         } else {
             ratio = std::max(0.0, std::min(1.0, your_value / best_value)); // Clamp
+            unbounded_ratio = std::max(0.0, your_value / best_value);
         }
     }
 
-    quitp(ratio, "Final average score ratio. Ratio: %.4f", ratio);
-
+    quitp(ratio, "Final average score ratio. Ratio: %.4f, RatioUnbounded: %.4f", ratio, unbounded_ratio);
     return 0;
 }

@@ -66,18 +66,21 @@ int main(int argc, char **argv){
 				quitp(0.0, "Blank cells unvisited");
 			}
 		}
-		double pnt = 1.0;
+		double pnt = 1.0, unbounded_pnt = 1.0;
 		int bound = 12 * blank * max(n, m);
 		if (op.size() <= bound) {
-			quitf(_ok, "Correct.");
+			// quitf(_ok, "Correct.");
+			unbounded_pnt -= 1.0 * (op.size() - bound) / bound;
 		}
 		else {
 			pnt -= 1.0 * (op.size() - bound) / bound;
 			pnt = max(pnt, 0.0);
+			unbounded_pnt = pnt;
 		}
 		char mes[30];
-		sprintf(mes, "Ratio: %lf", pnt);
+		sprintf(mes, "Ratio: %lf, RatioUnbounded: %lf", pnt, unbounded_pnt);
 		quitp(pnt, "%s", mes);
 	}
 	return 0;
 }
+

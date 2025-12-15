@@ -115,7 +115,9 @@ int main(int argc, char* argv[]) {
             } else {
                 double score = score_from_queries(qcnt);
                 double part  = max(0.0, min(100.0, score)) / 100.0;
-                quitp(part, "OK. n=%lld, queries=%lld, Ratio: %.4f", n, qcnt, part);
+                double unbounded_part = max(0.0, score) / 100.0;
+                
+                quitp(part, "OK. n=%lld, queries=%lld, Ratio: %.4f, RatioUnbounded: %.4f", n, qcnt, part, unbounded_part);
             }
 
         } else {

@@ -174,10 +174,11 @@ int main(int argc, char** argv) {
     }
 
     long double ratioLD = (long double)K / ((long double) U * 1.5);
+    double unbounded_ratio = max(0.0, (double)ratioLD);
     if (ratioLD > 1.0L) ratioLD = 1.0L;
     if (ratioLD < 0.0L) ratioLD = 0.0L;
     double ratio = (double)ratioLD;
 
-    quitp(ratio, "Ratio: %.3f", ratio);
+    quitp(ratio, "Ratio: %.3f, RatioUnbounded: %.3f", ratio, unbounded_ratio);
     return 0;
 }

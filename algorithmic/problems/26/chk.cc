@@ -70,7 +70,8 @@ int main(int argc, char* argv[]) {
         quitf(_wa, "Claimed cost %lld does not match actual cost %lld from moves", participant_cost, actual_cost);
     }
     double score_ratio = (double)best_answer / participant_cost;
+    double unbounded_score_ratio = max(0.0, score_ratio);
     score_ratio = min(1.0, score_ratio); 
-    quitp(score_ratio, "Cost: %lld. Ratio: %.6f", participant_cost, score_ratio);
+    quitp(score_ratio, "Cost: %lld. Ratio: %.6f, RatioUnbounded: %.6f", participant_cost, score_ratio, unbounded_score_ratio);
     return 0;
 }

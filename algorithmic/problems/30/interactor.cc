@@ -75,9 +75,10 @@ int main(int argc, char *argv[]) {
       if(guess == target){
         int best = ans.readInt();
         double score = (3.0*best-1.0*sum_depth)/(2.0*best); // Get full score if less than 1.5*best, get half if less than 2.0*best
+        double unbounded_score = max(0.0, score);
         score = min(score, 1.0);
         score = max(score, 0.0);
-        quitp(score, "Ratio: %.3lf", score);
+        quitp(score, "Ratio: %.3lf, RatioUnbounded: %.3lf", score, unbounded_score);
       }
       else{
         quitf(_wa, "Wrong node, expected %d, output %d", target, guess);
