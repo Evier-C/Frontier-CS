@@ -6,15 +6,16 @@
 #include <string>
 #include "testlib.h"
 using namespace std;
+
 enum {
-    INVALID_INPUT = -1,        // Judge input invalid (internal use only)
-    INVALID_T_LENGTH = 1,      // t length != N
-    INVALID_T_CHAR   = 2,      // t contains illegal characters
-    WRONG_T          = 3,      // t does not match true value
-    INVALID_S_LENGTH = 4,      // s length != 2N+1
-    INVALID_S_CHAR   = 5,      // s contains illegal characters
-    QUERY_LIMIT_EXCEEDED = 6,  // query count > 1000
-    INVALID_OUTPUT   = 9,      // player output first char is neither '?' nor '!'
+    INVALID_INPUT = -1,        // 评测端输入非法（仅评测内部使用）
+    INVALID_T_LENGTH = 1,      // t 长度 != N
+    INVALID_T_CHAR   = 2,      // t 含非法字符
+    WRONG_T          = 3,      // t 与真值不一致
+    INVALID_S_LENGTH = 4,      // s 长度 != 2N+1
+    INVALID_S_CHAR   = 5,      // s 含非法字符
+    QUERY_LIMIT_EXCEEDED = 6,  // 询问次数 > 1000
+    INVALID_OUTPUT   = 9,      // 选手输出行的首字符既不是 '?' 也不是 '!'
 };
 
 const int N_MAX = 8000;
@@ -25,21 +26,31 @@ std::vector<int> U, V;
 std::string T;
 int QUERY_COUNT = 0;
 
+// 有界：900 内满分 1.0，>=5000 为 0，线性插值
 double score(int x){
-    if(x<=900)return 1;
-    if(x>5000)return 0;
-    return (5000.0-x)/(5000.0-900.0);
+    if (x <= 900) return 1.0;
+    if (x >= 5000) return 0.0;
+    return (5000.0 - x) / (5000.0 - 900.0);
+}
+
+// 无下界：0 内满分 1.0，>=5000 为 0，线性插值
+double score_unbounded(int x){
+    if (x <= 0) return 1.0;
+    if (x >= 5000) return 0.0;
+    return (5000.0 - x) / 5000.0;
 }
 
 [[noreturn]] void wrong(const int num) {
-    // Write a flag to player program (avoid blocking read), then terminate via testlib
+    // 向选手程序写一个标志（避免卡读），随后用 testlib 结束
     fprintf(stdout, "-1\n");
     fflush(stdout);
     quitf(_wa, "translate:wrong\nWrong Answer [%d]\n", num);
 }
 
 [[noreturn]] void ok() {
-    quitp(score(QUERY_COUNT), "Ratio: %.4f , Queries: %d", score(QUERY_COUNT), QUERY_COUNT);
+    double r  = score(QUERY_COUNT);
+    double ru = score_unbounded(QUERY_COUNT);
+    quitp(r, "Ratio: %.4f , RatioUnbounded: %.4f , Queries: %d", r, ru, QUERY_COUNT);
 }
 
 int query(std::string s) {
@@ -55,10 +66,10 @@ int query(std::string s) {
     }
     QUERY_COUNT++;
 
-    // Convert '0'/'1' to 0/1
+    // 将 '0'/'1' 转为 0/1
     for (char &c : s) c -= '0';
 
-    // Calculate slot outputs from high to low and fold to switch i (XOR trick for OFF/ON behaviors)
+    // 自高到低地计算槽输出并折叠到开关 i（XOR 技巧实现 OFF/ON 两种行为）
     for (int i = N - 1; i >= 0; --i) {
         const int u = U[i], v = V[i];
         if (T[i] == '&') {
@@ -67,7 +78,7 @@ int query(std::string s) {
             s[i] ^= (s[u] | s[v]);
         }
     }
-    // Return final output of switch 0
+    // 返回最终开关 0 的输出
     return s[0];
 }
 
@@ -87,25 +98,25 @@ void answer(std::string t) {
 int main(int argc, char* argv[]) {
     registerInteraction(argc, argv);
 
-    // ---------- Read judge input (internal use only) ----------
+    // ---------- 读取评测输入（仅评测端使用） ----------
     N = inf.readInt();     // 1..8000
     R = inf.readInt();     // 1..min(N,120)
     if (N < 1 || N > N_MAX) {
         wrong(INVALID_INPUT);
     }
-    cout<<N<<" "<<R<<endl;
+    cout << N << " " << R << endl;
+
     U.resize(N);
     V.resize(N);
     for (int i = 0; i < N; ++i) {
         U[i] = inf.readInt();
         V[i] = inf.readInt();
-        /*if (!(i < U[i] && U[i] < V[i] && V[i] <= 2 * N)) {
-            wrong(INVALID_INPUT);
-        }*/
-       cout<<U[i]<<" "<<V[i]<<endl;
+        // 边界/拓扑约束可按需打开
+        // if (!(i < U[i] && U[i] < V[i] && V[i] <= 2 * N)) wrong(INVALID_INPUT);
+        cout << U[i] << " " << V[i] << endl;
     }
 
-    // Hidden truth value (internal use only, not visible to players)
+    // 隐藏真值（仅评测端使用，选手不可见）
     T = inf.readToken();
     if ((int)T.size() != N) {
         wrong(INVALID_INPUT);
@@ -116,41 +127,27 @@ int main(int argc, char* argv[]) {
         if (c == '|') ++orCount;
     }
     if (orCount > R) {
-        // Judge data inconsistent with declared R
         wrong(INVALID_INPUT);
     }
 
-    // ---------- Output initial visible info to player ----------
-    // Format: N R, then N lines of U[i] V[i]
-    /*fprintf(stdout, "%d %d\n", N, R);
-    for (int i = 0; i < N; ++i) {
-        fprintf(stdout, "%d %d\n", U[i], V[i]);
-    }
-    fflush(stdout);*/
-
-    // ---------- Interaction loop ----------
+    // ---------- 交互循环 ----------
     while (true) {
-        // Read operator ('?', '!')
-        std::string op = ouf.readToken();
+        std::string op = ouf.readToken(); // 读一个 token
         if (op.empty()) wrong(INVALID_OUTPUT);
         const char type = op[0];
         if (type != '?' && type != '!') wrong(INVALID_OUTPUT);
 
-        // Read following string (s or t)
         std::string payload = ouf.readToken();
 
-        // Compatibility: remove trailing newline if present (readToken usually doesn't include it)
+        // 兼容性处理：若末尾带换行，去掉（通常 readToken 不会带）
         if (!payload.empty() && payload.back() == '\n') payload.pop_back();
 
         if (type == '?') {
-            // Handle query
             int res = query(payload);
             fprintf(stdout, "%d\n", res);
             fflush(stdout);
         } else {
-            // Final answer
-            answer(payload);
-            // answer() will call quitf internally; should not reach here normally
+            answer(payload); // 内部会 quitp
         }
     }
 }
