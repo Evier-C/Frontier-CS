@@ -209,17 +209,11 @@ int main(int argc, char* argv[]) {
         quitf(_wa, "The puzzle is unsolvable");
     }
 
-    // Scoring:
-    // - score_ratio: clamped to [0, 1], baseline 63,000 moves  -> 1.0
-    // - unbounded_ratio: clamped to [0, 1], baseline 100,000 moves -> 1.0
+
     long long score = bestMoves;
     double score_ratio = bestMoves <= 0 ? 0.0 : (double)bestMoves / 63000.0;
-
     double unbounded_ratio = score_ratio;
-    
     if (score_ratio > 1.0) score_ratio = 1.0;
-
-    
 
     quitp(score_ratio, "Value: %lld. Ratio: %.4f, RatioUnbounded: %.4f", score, score_ratio, unbounded_ratio);
 }

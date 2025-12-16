@@ -51,3 +51,5 @@ solutions/
 results/
 generation_logs/
 pairs.txt
+
+.lock
