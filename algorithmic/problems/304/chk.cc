@@ -98,21 +98,6 @@ static vector<int> buildBaselineWalk(int N, int M, int K, const vector<vector<in
     return moves;
 }
 
-static i128 computeUpperBoundU(int N, int K, const vector<int64>& r) {
-    // Deterministic: assign largest rates among 2..N to times K, K-1, ..., K-(N-2).
-    vector<int64> rates;
-    rates.reserve(max(0, N - 1));
-    for (int i = 2; i <= N; i++) rates.push_back(r[i]);
-    sort(rates.begin(), rates.end(), greater<int64>());
-
-    i128 U = 0;
-    for (int j = 0; j < (int)rates.size(); j++) {
-        int time = K - j; // K, K-1, ...
-        U += (i128)rates[j] * (i128)time;
-    }
-    return U;
-}
-
 int main(int argc, char* argv[]) {
     registerTestlibCmd(argc, argv);
 
@@ -173,23 +158,17 @@ int main(int argc, char* argv[]) {
     vector<int> baseMoves = buildBaselineWalk(N, M, K, g);
     i128 B = computeValue(N, K, r, baseMoves);
 
-    // Compute deterministic upper bound U.
-    i128 U = computeUpperBoundU(N, K, r);
-
     long double ratioLD = 0.0L;
-    if (U != B) {
-        ratioLD = (long double)(V - B) / (long double)(U - B);
+    if (V != 0) {
+        ratioLD = (long double)(V - B) / (long double)V;
         if (ratioLD < 0.0L) ratioLD = 0.0L;
         if (ratioLD > 1.0L) ratioLD = 1.0L;
-    } else {
-        ratioLD = 0.0L;
     }
 
     double ratio = (double)ratioLD;
     quitp(ratio,
-          "Ratio: %.12f  V=%s  B=%s  U=%s",
+          "Ratio: %.12f  V=%s  B=%s",
           ratio,
           toString128(V).c_str(),
-          toString128(B).c_str(),
-          toString128(U).c_str());
+          toString128(B).c_str());
 }

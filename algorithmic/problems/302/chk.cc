@@ -101,44 +101,6 @@ static string buildBaseline(int n, int k, const vector<int>& cnt) {
     return s;
 }
 
-// Greedy to reduce bigram penalty only (deterministic, O(n*k))
-static string buildGreedyBigram(int n, int k, const vector<int>& cnt0, const vector<vector<long long>>& W) {
-    vector<int> cnt = cnt0;
-    string s;
-    s.reserve(n);
-
-    int cur = -1;
-    for (int i = 0; i < k; i++) if (cnt[i] > 0) { cur = i; break; }
-    if (cur == -1) return s;
-
-    s.push_back(char('a' + cur));
-    cnt[cur]--;
-
-    for (int pos = 1; pos < n; pos++) {
-        int best = -1;
-        long long bestW = (long long)4e18;
-        for (int j = 0; j < k; j++) if (cnt[j] > 0) {
-            long long val = W[cur][j];
-            if (val < bestW || (val == bestW && j < best)) {
-                bestW = val;
-                best = j;
-            }
-        }
-        if (best == -1) break;
-        s.push_back(char('a' + best));
-        cnt[best]--;
-        cur = best;
-    }
-    return s;
-}
-
-static string buildReversedBlocks(int n, int k, const vector<int>& cnt) {
-    string s;
-    s.reserve(n);
-    for (int i = k - 1; i >= 0; i--) s.append(cnt[i], char('a' + i));
-    return s;
-}
-
 int main(int argc, char* argv[]) {
     registerTestlibCmd(argc, argv);
 
@@ -163,13 +125,9 @@ int main(int argc, char* argv[]) {
     }
     ac.build();
 
-    // Build baseline and internal reference
+    // Build the single deterministic baseline described in the statement.
     string sBase = buildBaseline(n, k, cnt);
-    string sRev  = buildReversedBlocks(n, k, cnt);
-    string sGreedy = buildGreedyBigram(n, k, cnt, W);
-
     long long B = computePenalty(sBase, k, W, ac);
-    long long R = min({B, computePenalty(sRev, k, W, ac), computePenalty(sGreedy, k, W, ac)});
 
     // Read participant output
     string out;
@@ -198,10 +156,10 @@ int main(int argc, char* argv[]) {
 
     long long X = computePenalty(out, k, W, ac);
 
-    long long denomLL = max(1LL, B - R);
+    long long denomLL = max(1LL, B);
     long double ratio = (long double)(B - X) / (long double)denomLL;
     if (ratio < 0) ratio = 0;
     if (ratio > 1) ratio = 1;
 
-    quitp((double)ratio, "Ratio: %.12Lf B=%lld R=%lld X=%lld denom=%lld", ratio, B, R, X, denomLL);
+    quitp((double)ratio, "Ratio: %.12Lf B=%lld X=%lld denom=%lld", ratio, B, X, denomLL);
 }

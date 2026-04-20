@@ -76,12 +76,15 @@ For each test case, the judge computes:
 
 Your per-test ratio is:
 \[
-s = \mathrm{clamp}\!\left(\frac{C_{\text{base}} - C_{\text{out}}}{C_{\text{base}}},\, 0,\, 1\right) \in [0, 1]
+s =
+\begin{cases}
+0 & \text{if } C_{\text{base}} = 0 \\
+\mathrm{clamp}\!\left(\frac{C_{\text{base}} - C_{\text{out}}}{C_{\text{base}}},\, 0,\, 1\right) & \text{otherwise}
+\end{cases}
 \]
-where `clamp(x,0,1)=min(1,max(0,x))`. Equivalently, `s = max(0, 1 - C_out / C_base)`.
+where `clamp(x,0,1)=min(1,max(0,x))`.
 
 Special cases:
-- If `C_base = 0`, then `s = 1` if `C_out = 0`, else `s = 0`.
 - Invalid output: `s = 0`.
 
 ### Baseline schedule `C_base`

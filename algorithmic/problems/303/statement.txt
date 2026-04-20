@@ -100,18 +100,13 @@ For each test case, the judge computes:
   \[
   P_0 = (w_a + w_b) - c \cdot 0 = w_a + w_b.
   \]
-- An upper bound \(U\), defined as:
-  \[
-  U = \sum_{i=1}^{N} w_i.
-  \]
-  (You can never collect more than all values; note the move cost only decreases profit.)
 
 The per-test score ratio is:
 \[
 \text{ratio} =
 \begin{cases}
-0 & \text{if } U = P_0 \\
-\mathrm{clamp}\left(\dfrac{P - P_0}{U - P_0},\, 0,\, 1\right) & \text{otherwise}
+0 & \text{if } P \le 0 \\
+\mathrm{clamp}\left(\dfrac{P - P_0}{P},\, 0,\, 1\right) & \text{otherwise}
 \end{cases}
 \]
 where \(\mathrm{clamp}(x,0,1)=\min(1,\max(0,x))\).
@@ -149,5 +144,5 @@ The final score is the sum of per-test ratios, scaled to the total points config
 ### Explanation (high level)
 - Start touching \(\{1,2\}\); collected so far: \(w_1+w_2=18\).
 - Each printed pair must be reachable by one allowed move (equal-distance rule around the shared pinhole).
-- The judge computes the set of touched pinholes \(T\), sums their values to get \(V\), subtracts \(c \cdot S\) to get profit \(P\), then converts \(P\) to a normalized score between the baseline \(P_0=w_1+w_2\) and the upper bound \(U=\sum w_i\).
+- The judge computes the set of touched pinholes \(T\), sums their values to get \(V\), subtracts \(c \cdot S\) to get profit \(P\), then compares \(P\) against the zero-move baseline \(P_0=w_1+w_2\) using the normalized ratio above.
 ```

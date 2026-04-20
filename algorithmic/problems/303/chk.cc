@@ -16,12 +16,10 @@ int main(int argc, char** argv) {
     long long c = inf.readLong();
 
     vector<long long> x(N + 1), y(N + 1), w(N + 1);
-    long long U = 0;
     for (int i = 1; i <= N; i++) {
         x[i] = inf.readLong();
         y[i] = inf.readLong();
         w[i] = inf.readLong();
-        U += w[i];
     }
 
     long long P0 = w[a] + w[b];
@@ -105,15 +103,13 @@ int main(int argc, char** argv) {
     long long profit = collected - c * 1LL * S;
 
     double ratio = 0.0;
-    if (U == P0) {
-        ratio = 0.0;
-    } else {
-        ratio = double(profit - P0) / double(U - P0);
+    if (profit > 0) {
+        ratio = double(profit - P0) / double(profit);
         if (ratio < 0.0) ratio = 0.0;
         if (ratio > 1.0) ratio = 1.0;
     }
 
     quitp(ratio,
-          "Ratio: %.9f Profit=%lld Baseline=%lld Upper=%lld Moves=%d Collected=%lld CostPerMove=%lld",
-          ratio, profit, P0, U, S, collected, c);
+          "Ratio: %.9f Profit=%lld Baseline=%lld Moves=%d Collected=%lld CostPerMove=%lld",
+          ratio, profit, P0, S, collected, c);
 }

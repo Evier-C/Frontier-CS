@@ -116,10 +116,7 @@ int main(int argc, char** argv) {
     long long C_out  = simulateCost(g, initCol, outOrder);
 
     double ratio = 0.0;
-    if (C_base == 0) {
-        // Degenerate: only schedules with C_out == 0 are considered optimal.
-        ratio = (C_out == 0) ? 1.0 : 0.0;
-    } else {
+    if (C_base != 0) {
         long double x = (long double)(C_base - C_out) / (long double)C_base;
         if (x < 0) x = 0;
         if (x > 1) x = 1;

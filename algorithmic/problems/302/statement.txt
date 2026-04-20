@@ -77,9 +77,20 @@ This problem is evaluated on multiple hidden test instances.
 
 For each test instance:
 - If your output is infeasible (wrong length, characters outside the alphabet, or wrong per-letter counts), you get ratio `0`.
-- Otherwise, your output's penalty `P(s)` is compared against an internal baseline that the judge computes for that instance. The smaller your penalty is relative to the baseline, the higher the ratio, clamped to `[0, 1]`.
+- Otherwise, let `X = P(s)` be your total penalty.
+- The judge also computes a deterministic baseline string
+  `s_base = a...ab...bc...c`, consisting of exactly `c1` copies of `a`, then `c2` copies of `b`, and so on up to the `k`-th letter.
+- Let `B = P(s_base)` be the baseline penalty.
+
+Your per-test ratio is:
+\[
+\mathrm{ratio} = \mathrm{clamp}\left(\frac{B - X}{\max(B, 1)},\, 0,\, 1\right)
+\]
+where `clamp(x,0,1)=min(1,max(0,x))`.
 
 Lower penalty is strictly better, and matching or exceeding the baseline penalty gives ratio `0`.
+
+The final score is the sum of per-test ratios, scaled to the total points configured for this problem.
 
 ## Constraints
 - Time limit: 2 seconds
@@ -111,5 +122,5 @@ abcabcabca
   - plus 7 for each occurrence of `"ab"`,
   - plus 6 for each occurrence of `"baa"`,
   - plus 5 for each occurrence of `"cc"`.
-- Your per-test ratio depends continuously on how much you reduce this penalty compared with the judge's internal baseline.
+- The judge compares that total penalty against the deterministic baseline string described in the scoring rule.
 ```

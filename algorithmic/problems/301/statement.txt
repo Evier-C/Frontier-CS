@@ -139,10 +139,8 @@ This means:
 - doing worse than the baseline is clamped to `0`
 
 ### Final score
-The final score is the **average** over all test cases (the judge uses multiple hidden tests):
-\[
-\mathrm{score} = \frac{1}{T}\sum_{case=1}^{T} \mathrm{score\_test}
-\]
+The checker emits one per-test ratio in `[0, 1]` for each hidden test case.
+The final score is the sum of these per-test ratios, scaled to the total points configured for this problem.
 
 ---
 
