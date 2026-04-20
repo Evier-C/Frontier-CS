@@ -96,10 +96,7 @@ This is an optimization problem with continuous scoring.
 
 For each test case, the judge computes:
 - Your profit \(P\).
-- A baseline profit \(P_0\), defined as the profit of making **zero moves**:
-  \[
-  P_0 = (w_a + w_b) - c \cdot 0 = w_a + w_b.
-  \]
+- A deterministic internal reference profit \(P_0\), computed by the judge from the same test case.
 
 The per-test score ratio is:
 \[
@@ -144,5 +141,5 @@ The final score is the sum of per-test ratios, scaled to the total points config
 ### Explanation (high level)
 - Start touching \(\{1,2\}\); collected so far: \(w_1+w_2=18\).
 - Each printed pair must be reachable by one allowed move (equal-distance rule around the shared pinhole).
-- The judge computes the set of touched pinholes \(T\), sums their values to get \(V\), subtracts \(c \cdot S\) to get profit \(P\), then compares \(P\) against the zero-move baseline \(P_0=w_1+w_2\) using the normalized ratio above.
+- The judge computes the set of touched pinholes \(T\), sums their values to get \(V\), subtracts \(c \cdot S\) to get profit \(P\), then compares \(P\) against the judge's deterministic reference profit \(P_0\) using the normalized ratio above.
 ```

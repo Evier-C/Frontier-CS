@@ -78,9 +78,8 @@ This problem is evaluated on multiple hidden test instances.
 For each test instance:
 - If your output is infeasible (wrong length, characters outside the alphabet, or wrong per-letter counts), you get ratio `0`.
 - Otherwise, let `X = P(s)` be your total penalty.
-- The judge also computes a deterministic baseline string
-  `s_base = a...ab...bc...c`, consisting of exactly `c1` copies of `a`, then `c2` copies of `b`, and so on up to the `k`-th letter.
-- Let `B = P(s_base)` be the baseline penalty.
+- The judge also computes a deterministic internal reference string from the same test instance.
+- Let `B` be the total penalty of that reference string.
 
 Your per-test ratio is:
 \[
@@ -122,5 +121,5 @@ abcabcabca
   - plus 7 for each occurrence of `"ab"`,
   - plus 6 for each occurrence of `"baa"`,
   - plus 5 for each occurrence of `"cc"`.
-- The judge compares that total penalty against the deterministic baseline string described in the scoring rule.
+- The judge compares that total penalty against its deterministic internal reference penalty for the same test.
 ```

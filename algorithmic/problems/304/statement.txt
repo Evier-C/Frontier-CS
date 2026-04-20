@@ -69,17 +69,8 @@ You must **maximize** `V`.
 ## Scoring
 Scoring is computed **per test**.
 
-### Baseline value `B`
-For each test, the judge computes a baseline walk and its objective value `B` as follows:
-
-1. Build a BFS tree rooted at `1` (ties broken by smaller vertex id).
-2. Perform a deterministic DFS traversal of that tree (children in increasing id order), producing an Euler walk that:
-   - starts at `1`,
-   - traverses each tree edge down and back up once,
-   - has length exactly `2·(N-1)` and visits all vertices.
-3. If this uses fewer than `K` moves, append additional moves by repeatedly traversing the smallest-id edge incident to vertex `1` back and forth until reaching exactly `K` moves.
-
-Let `B` be the objective value of that baseline walk.
+### Reference value `B`
+For each test, the judge computes a deterministic internal reference walk from the same instance, and lets `B` be the objective value of that walk.
 
 ### Per-test score
 If `V = 0`, the per-test ratio is defined as `0`.

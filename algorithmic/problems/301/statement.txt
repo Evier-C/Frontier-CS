@@ -118,8 +118,7 @@ This is a **minimization** problem.
 
 For each test case, the judge computes:
 - `OBJ_you`: your objective value.
-- `OBJ_base`: a baseline objective, using the **baseline solution**:
-  - select rope IDs: `0 1 2 ... (K-1)`
+- `OBJ_base`: the objective value of a deterministic internal reference solution computed from that test case.
 
 ### Per-test score
 Let:
@@ -181,5 +180,5 @@ Hidden tests satisfy:
 ```
 
 ### Explanation (high level)
-You chose candidate ropes #4 \((0,2)\) and #5 \((1,3)\). The judge generates 5000 deterministic uniform sample points inside the polygon (using seed 1234567), computes for each point the distance to the nearer of these two segments, averages those distances to get `OBJ_you`, then compares that objective against the baseline choice (`0 1`) to compute the normalized score.
+You chose candidate ropes #4 \((0,2)\) and #5 \((1,3)\). The judge generates 5000 deterministic uniform sample points inside the polygon (using seed 1234567), computes for each point the distance to the nearer of these two segments, averages those distances to get `OBJ_you`, then compares that objective against the judge's deterministic reference objective to compute the normalized score.
 ```
