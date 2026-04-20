@@ -72,7 +72,7 @@ This is an **optimization** problem; lower cost is better.
 
 For each test case, the judge computes:
 - `C_out`: cost of your output schedule.
-- `C_base`: cost of a deterministic baseline schedule (defined below).
+- `C_base`: cost of a deterministic internal reference schedule computed from that test case.
 
 Your per-test ratio is:
 \[
@@ -87,13 +87,10 @@ where `clamp(x,0,1)=min(1,max(0,x))`.
 Special cases:
 - Invalid output: `s = 0`.
 
-### Baseline schedule `C_base`
-The baseline schedule is computed deterministically as:
-1. Root the tree at vertex `1`.
-2. Compute a BFS order from `1` (ties broken by smaller vertex id).
-3. Use that BFS order as the baseline schedule.
+### Reference cost `C_base`
+`C_base` is the cost of a deterministic internal reference schedule computed by the judge from the same test case.
 
-`C_base` is the cost of that baseline schedule.
+The exact construction of this internal reference schedule is intentionally not part of the contestant-facing specification. For solving the problem, you should optimize `C_out` directly according to the objective above.
 
 ### Total score
 The per-test ratio `s` is scaled to the total points configured for this problem in the judge configuration; the final score is the sum of these scaled per-test contributions across all test cases.
@@ -134,5 +131,5 @@ One possible output:
 Explanation (high level):
 - The judge simulates your order.
 - Each round adds the current count of `B` among remaining vertices, then flips unserviced neighbors of the chosen vertex.
-- The resulting total `C_out` is compared against `C_base` (BFS order `1 2 3 4`), producing a ratio `s ∈ [0, 1]` for this test which is then scaled to the configured per-test point budget.
+- The resulting total `C_out` is compared against the judge's deterministic reference cost `C_base`, producing a ratio `s ∈ [0, 1]` for this test which is then scaled to the configured per-test point budget.
 ```
